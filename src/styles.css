@@ -1,0 +1,141 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "Space Grotesk", "Arial Narrow", sans-serif;
+  --font-display: "Orbitron", "Arial Black", sans-serif;
+  --radius-sm: calc(var(--radius) - 3px);
+  --radius-md: calc(var(--radius) - 1px);
+  --radius-lg: var(--radius);
+  --color-background: var(--background); --color-foreground: var(--foreground);
+  --color-card: var(--card); --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover); --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary); --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary); --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted); --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent); --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive); --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border); --color-input: var(--input); --color-ring: var(--ring);
+  --color-runner: var(--runner); --color-hunter: var(--hunter); --color-exit: var(--exit); --color-warning: var(--warning);
+  --shadow-neon: 0 0 20px color-mix(in oklab, var(--primary) 45%, transparent);
+  --shadow-danger: 0 0 24px color-mix(in oklab, var(--destructive) 50%, transparent);
+  --animate-fade-in: fade-in .45s ease-out both;
+}
+
+:root {
+  --radius: .45rem;
+  --background: oklch(0.145 0.022 257); --foreground: oklch(0.96 0.012 220);
+  --card: oklch(0.19 0.028 254); --card-foreground: oklch(0.96 0.012 220);
+  --popover: oklch(0.17 0.025 254); --popover-foreground: oklch(0.96 0.012 220);
+  --primary: oklch(0.62 0.25 292); --primary-foreground: oklch(0.985 0.005 260);
+  --secondary: oklch(0.22 0.035 254); --secondary-foreground: oklch(0.94 0.01 220);
+  --muted: oklch(0.22 0.025 254); --muted-foreground: oklch(0.67 0.025 240);
+  --accent: oklch(0.3 0.055 252); --accent-foreground: oklch(0.96 0.012 220);
+  --destructive: oklch(0.63 0.26 20); --destructive-foreground: oklch(0.98 0.006 20);
+  --border: oklch(0.35 0.05 250 / .72); --input: oklch(0.29 0.04 250); --ring: oklch(0.8 0.16 202);
+  --runner: oklch(0.84 0.15 205); --hunter: oklch(0.64 0.27 20); --exit: oklch(0.88 0.2 151); --warning: oklch(0.9 0.19 96);
+}
+
+* { border-color: var(--border); box-sizing: border-box; }
+html, body, #root { min-height: 100%; }
+body { margin: 0; background: var(--background); color: var(--foreground); font-family: var(--font-sans); overflow: hidden; }
+button { font: inherit; }
+.shadow-neon { box-shadow: var(--shadow-neon); }
+.shadow-danger { box-shadow: var(--shadow-danger); }
+@keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes scan { from { transform: translateY(-10%); } to { transform: translateY(110%); } }
+@keyframes pulse-danger { 0%,100% { box-shadow: inset 0 0 45px transparent; } 50% { box-shadow: inset 0 0 70px color-mix(in oklab, var(--hunter) 24%, transparent); } }
+@keyframes count-pop { 0% { opacity: 0; transform: scale(1.8); } 25%,70% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(.7); } }
+
+.game-home { position: relative; display: flex; min-height: 100svh; align-items: center; justify-content: center; overflow: hidden; padding: 32px 24px; background: radial-gradient(circle at 50% 58%, color-mix(in oklab, var(--runner) 9%, transparent), transparent 30%), var(--background); }
+.home-grid { position: absolute; inset: -20%; opacity: .28; transform: perspective(500px) rotateX(62deg) translateY(35%); background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 52px 52px; mask-image: radial-gradient(circle, black, transparent 68%); }
+.home-grid::after { content: ""; position: absolute; inset-inline: 0; height: 2px; background: var(--runner); opacity: .45; box-shadow: 0 0 18px var(--runner); animation: scan 5s linear infinite; }
+.brand-lockup { position: absolute; top: clamp(8%, 12vh, 15%); z-index: 2; text-align: center; }
+.brand-mark { font-family: var(--font-display); font-size: clamp(3.6rem, 14vw, 7rem); font-weight: 900; line-height: .9; letter-spacing: 0; text-shadow: 0 0 28px color-mix(in oklab, var(--runner) 25%, transparent); }
+.brand-mark b { color: var(--hunter); text-shadow: 0 0 25px color-mix(in oklab, var(--hunter) 65%, transparent); }
+.brand-lockup p { margin: 18px 0 0; color: var(--muted-foreground); font-size: .75rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+.home-runner { position: absolute; left: 50%; top: 44%; z-index: 2; width: 18px; height: 18px; transform: translate(-50%,-50%); border-radius: 50%; background: var(--runner); box-shadow: 0 0 12px var(--runner), 0 0 45px var(--runner); }
+.home-runner i, .home-runner span, .home-runner b { position: absolute; top: 8px; right: 18px; height: 2px; width: 50px; background: linear-gradient(90deg, transparent, var(--runner)); opacity: .45; }
+.home-runner span { top: 2px; width: 31px; transform: rotate(8deg); }
+.home-runner b { top: 14px; width: 38px; transform: rotate(-7deg); }
+.home-actions { z-index: 3; display: grid; width: min(100%, 330px); gap: 11px; margin-top: min(43vh, 360px); animation-delay: .15s; }
+.status-tag { border: 1px solid var(--border); padding: 2px 5px; color: var(--muted-foreground); font-size: 8px; }
+.home-rule { position: absolute; bottom: 22px; color: var(--muted-foreground); font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+
+.game-screen { display: grid; min-height: 100svh; place-items: center; background: color-mix(in oklab, var(--background) 94%, var(--runner)); }
+.game-screen.is-danger { animation: pulse-danger .75s ease-in-out infinite; }
+.game-shell { position: relative; width: 100%; height: 100svh; max-width: 760px; overflow: hidden; background: var(--background); isolation: isolate; }
+.game-canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; }
+.game-hud { position: absolute; z-index: 5; top: 0; left: 0; right: 0; display: grid; grid-template-columns: 1fr auto 1fr; align-items: start; padding: calc(14px + env(safe-area-inset-top)) 15px 12px; background: linear-gradient(to bottom, color-mix(in oklab, var(--background) 96%, transparent), transparent); pointer-events: none; }
+.hud-cluster { display: flex; align-items: baseline; gap: 7px; }
+.hud-label { color: var(--muted-foreground); font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.hud-cluster strong { font-family: var(--font-display); font-size: 20px; }
+.timer { display: grid; text-align: center; }
+.timer span { font-family: var(--font-display); font-size: 18px; }
+.timer small { color: var(--muted-foreground); font-size: 9px; text-transform: uppercase; }
+.hud-actions { justify-self: end; display: flex; align-items: center; gap: 10px; pointer-events: auto; }
+.lives { display: flex; gap: 3px; }
+.life-on { color: var(--hunter); filter: drop-shadow(0 0 6px var(--hunter)); }
+.life-off { color: var(--muted-foreground); opacity: .45; }
+.icon-control { display: grid; width: 42px; height: 42px; place-items: center; border: 1px solid var(--border); border-radius: 50%; background: color-mix(in oklab, var(--background) 72%, transparent); color: var(--foreground); backdrop-filter: blur(8px); }
+.icon-control:active { transform: scale(.94); }
+.danger-label { position: absolute; z-index: 4; top: 84px; left: 50%; transform: translateX(-50%); color: var(--hunter); font-family: var(--font-display); font-size: 10px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; text-shadow: 0 0 10px var(--hunter); }
+.countdown { position: absolute; z-index: 7; inset: 0; display: grid; place-content: center; text-align: center; pointer-events: none; background: color-mix(in oklab, var(--background) 15%, transparent); }
+.countdown span { color: var(--muted-foreground); font-size: 11px; font-weight: 800; letter-spacing: .22em; }
+.countdown strong { font-family: var(--font-display); font-size: clamp(5rem, 24vw, 9rem); color: var(--runner); text-shadow: 0 0 30px var(--runner); animation: count-pop 1s ease-out both; }
+.countdown.run { background: transparent; }
+.countdown.run strong { color: var(--exit); font-size: clamp(3rem, 16vw, 6rem); text-shadow: 0 0 30px var(--exit); }
+.controls { position: absolute; z-index: 6; left: 0; right: 0; bottom: 0; display: flex; align-items: end; justify-content: space-between; padding: 26px max(24px, env(safe-area-inset-right)) calc(24px + env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left)); pointer-events: none; background: linear-gradient(to top, color-mix(in oklab, var(--background) 78%, transparent), transparent); }
+.joystick { display: grid; width: 116px; height: 116px; place-items: center; border-radius: 50%; pointer-events: auto; touch-action: none; }
+.joystick-ring { display: grid; width: 88px; height: 88px; place-items: center; border: 1px solid var(--border); border-radius: 50%; background: color-mix(in oklab, var(--secondary) 60%, transparent); box-shadow: inset 0 0 22px color-mix(in oklab, var(--runner) 8%, transparent);  position: relative; overflow: hidden; }
+.joystick-ring span { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) translate(0px, 0px); width: 38px; height: 38px; border: 1px solid color-mix(in oklab, var(--runner) 55%, var(--border)); border-radius: 50%; background: color-mix(in oklab, var(--runner) 12%, var(--secondary)); box-shadow: 0 0 15px color-mix(in oklab, var(--runner) 22%, transparent);  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) translate(0px, 0px); }
+.ability-controls { display: flex; align-items: center; gap: 15px; pointer-events: auto; }
+.map-control { width: 46px; height: 46px; }
+.dash-control { position: relative; display: grid; width: 86px; height: 86px; place-items: center; align-content: center; gap: 3px; overflow: hidden; border: 2px solid color-mix(in oklab, var(--primary) 70%, var(--foreground)); border-radius: 50%; background: color-mix(in oklab, var(--primary) 70%, transparent); color: var(--primary-foreground); box-shadow: 0 0 28px color-mix(in oklab, var(--primary) 45%, transparent); }
+.dash-control span { font-size: 9px; font-weight: 900; letter-spacing: .08em; }
+.dash-control i { position: absolute; inset: auto 0 0; height: 5px; transform-origin: left; background: var(--runner); }
+.dash-control.cooling { filter: saturate(.25); opacity: .7; }
+.minimap { position: absolute; z-index: 6; top: 106px; right: 15px; display: grid; width: 124px; aspect-ratio: 1; gap: 1px; padding: 8px; border: 1px solid var(--border); background: color-mix(in oklab, var(--background) 86%, transparent); box-shadow: 0 8px 32px color-mix(in oklab, var(--background) 60%, transparent); backdrop-filter: blur(10px); }
+.minimap span { background: var(--secondary); opacity: .5; }
+.minimap .runner { background: var(--runner); opacity: 1; box-shadow: 0 0 5px var(--runner); }
+.minimap .hunter { background: var(--hunter); opacity: 1; box-shadow: 0 0 5px var(--hunter); }
+.minimap .exit { background: var(--exit); opacity: 1; box-shadow: 0 0 5px var(--exit); }
+.modal-backdrop { position: absolute; z-index: 10; inset: 0; display: grid; place-items: center; padding: 24px; background: color-mix(in oklab, var(--background) 78%, transparent); backdrop-filter: blur(7px); }
+.game-modal { display: grid; width: min(100%, 370px); justify-items: center; gap: 15px; padding: 30px 25px; border-block: 1px solid color-mix(in oklab, var(--runner) 35%, var(--border)); background: color-mix(in oklab, var(--card) 92%, transparent); text-align: center; box-shadow: 0 0 50px color-mix(in oklab, var(--runner) 10%, transparent); animation: fade-in .25s ease-out; }
+.game-modal > svg { color: var(--runner); filter: drop-shadow(0 0 9px var(--runner)); }
+.game-modal.modal-danger > svg { color: var(--hunter); filter: drop-shadow(0 0 9px var(--hunter)); }
+.game-modal h1 { margin: -7px 0 0; font-family: var(--font-display); font-size: 32px; text-transform: uppercase; }
+.game-modal p { margin: 0; color: var(--muted-foreground); font-size: 13px; }
+.game-modal .eyebrow { color: var(--runner); font-size: 9px; font-weight: 800; letter-spacing: .17em; text-transform: uppercase; }
+.result-stats { display: grid; width: 100%; grid-template-columns: 1fr 1fr; margin-block: 6px; border-block: 1px solid var(--border); }
+.result-stats span { display: grid; gap: 4px; padding: 13px; font-family: var(--font-display); }
+.result-stats span + span { border-left: 1px solid var(--border); }
+.result-stats small { color: var(--muted-foreground); font-family: var(--font-sans); font-size: 8px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.desktop-hint { display: none; }
+
+@media (min-width: 800px) {
+  .game-screen { padding: 24px; }
+  .game-shell { height: min(88vh, 860px); border: 1px solid var(--border); box-shadow: 0 24px 90px color-mix(in oklab, var(--background) 70%, transparent), 0 0 50px color-mix(in oklab, var(--runner) 6%, transparent); }
+  .desktop-hint { position: fixed; bottom: 5px; display: block; margin: 0; color: var(--muted-foreground); font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }
+
+/* Menu pages, hint button */
+.game-home .home-actions { margin-top: min(34vh, 270px); }
+.hint-control { position: relative; width: 46px; height: 46px; color: #ffd54a; }
+.hint-control b { position: absolute; top: -6px; right: -6px; display: grid; min-width: 18px; height: 18px; place-items: center; border-radius: 9px; background: #ffd54a; color: #080b12; font-size: 10px; }
+.hint-control:disabled { opacity: .4; }
+.page { display: grid; min-height: 100svh; justify-items: center; align-content: start; padding: 24px 18px 40px; background: var(--background); color: var(--foreground); }
+.page-card { display: grid; width: min(100%, 460px); gap: 14px; }
+.page h1 { margin: 0; font-family: var(--font-display); font-size: 26px; letter-spacing: .06em; text-transform: uppercase; }
+.page h2 { margin: 0 0 4px; color: var(--runner); font-size: 10px; font-weight: 800; letter-spacing: .17em; text-transform: uppercase; }
+.page section { display: grid; gap: 6px; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); }
+.page p, .page li { margin: 0; color: var(--muted-foreground); font-size: 14px; line-height: 1.5; }
+.page ul { display: grid; gap: 7px; margin: 0; padding-left: 18px; }
+.page kbd { padding: 1px 6px; border: 1px solid var(--border); border-radius: 4px; color: var(--foreground); font-size: 12px; }
+.setting-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 9px 0; font-size: 14px; }
+
+
